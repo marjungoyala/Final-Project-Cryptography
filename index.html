@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Final Project_Cryptocoder: Encryption/Decryption</title>
+  <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.3/particles.min.js"
+      integrity="sha512-jq8sZI0I9Og0nnZ+CfJRnUzNSDKxr/5Bvha5bn7AHzTnRyxUfpUArMzfH++mwE/hb2efOo1gCAgI+1RMzf8F7g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  <link rel="stylesheet" href="asset/style.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="asset/encryption.js"></script>
+  <script src="asset/particle.js"></script>
+</head>
+<body>
+    <div class="container" >
+        <h1 class="logo">Cryptocoder: Encrypt/Decrypt</h1>
+        <input type="file" id="fileInput">
+        <select class="custom-select" id="encryptOrDecrypt">
+            <option value="encrypt">Encrypt</option>
+            <option value="decrypt">Decrypt</option>
+        </select>
+        <div class="button">
+          <button onclick="process()">Compiler</button> 
+        </div>
+        <a id="downloadLink" download="result.txt" style="display:none">Download Result</a>
+
+    <footer>
+      <ul>
+        <li>Created by:</li>
+        <li>Marjun A. Goyala</li>
+        <li>April Renz Granado</li>
+        <li>Arniel Jester Porcado</li>
+        <li>Kevin F. Gerona</li>
+        <li>John Cyron P. Hachero</li>
+      </ul>
+    </footer>
+
+  </div>
+  
+  <script>
+    var fileInput = document.getElementById("fileInput");
+    var encryptOrDecrypt = document.getElementById("encryptOrDecrypt");
+    var downloadLink = document.getElementById("downloadLink");
+    var processFunction;
+
+    function process() {
+      if (encryptOrDecrypt.value === "encrypt") {
+        processFunction = CaesarCipher.encrypt;
+      }
+      else {
+        processFunction = CaesarCipher.decrypt;
+      }
+
+      var file = fileInput.files[0];
+      var reader = new FileReader();
+      reader.onload = function() {
+        var plaintext = reader.result;
+        var ciphertext = processFunction(plaintext, 3);
+        var blob = new Blob([ciphertext], {type: "text/plain;charset=utf-8"});
+        downloadLink.href = URL.createObjectURL(blob);
+        downloadLink.style.display = "inline";
+      };
+      reader.readAsText(file);
+    }
+  </script>
+  <canvas class=""></canvas>
+  <script type="text/javascript" src="asset/particle.js"></script>
+</body>
+</html>
